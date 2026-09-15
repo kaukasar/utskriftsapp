@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Brevutskick – prototyp</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='5' fill='%231d5fb8'/%3E%3Crect x='5' y='7' width='14' height='10' rx='1.5' fill='none' stroke='white' stroke-width='1.6'/%3E%3Cpath d='m5 8.5 7 4.5 7-4.5' fill='none' stroke='white' stroke-width='1.6'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="proto-banner">Prototyp för demo &ndash; all data är fiktiv och inga brev skickas på riktigt.</div>
+
+  <header class="app-header">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+      </span>
+      <span>Brevutskick</span>
+    </div>
+    <div class="user">Inloggad som <strong>Handläggare Demo</strong></div>
+  </header>
+
+  <main>
+    <ol class="stepper" aria-label="Steg i utskicket">
+      <li class="is-current" aria-current="step">Uppgifter</li>
+      <li>Förhandsgranska</li>
+      <li>Skickat</li>
+    </ol>
+
+    <!-- ============ STEG 1: UPPGIFTER ============ -->
+    <section id="view-form" class="view" aria-labelledby="form-title">
+      <div class="page-head">
+        <h1 id="form-title" tabindex="-1">Nytt brevutskick</h1>
+        <p class="lead">Ladda upp brevet, ange mottagare och beskriv syftet med utskicket.</p>
+      </div>
+
+      <form id="letter-form" novalidate>
+        <!-- Brev -->
+        <div class="card">
+          <h2 class="card-title"><span class="num" aria-hidden="true">1</span> Brev</h2>
+          <p class="help" id="file-help">Brevet ska vara en PDF-fil. Du kan ha en uppladdad fil åt gången.</p>
+
+          <input type="file" id="file-input" class="visually-hidden" accept=".pdf,application/pdf" tabindex="-1" aria-hidden="true">
+
+          <div id="dropzone" class="dropzone">
+            <svg class="dz-icon" viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M12 17v-6"/><path d="m9 13 3-3 3 3"/></svg>
+            <p class="dz-text"><strong>Dra och släpp PDF-filen här</strong><span>eller</span></p>
+            <button type="button" id="choose-btn" class="btn btn-secondary" aria-describedby="file-help file-error">Välj fil</button>
+          </div>
+
+          <div id="file-card" class="file-card" hidden>
+            <div class="file-icon" aria-hidden="true">PDF</div>
+            <div class="file-meta">
+              <div class="file-added"><span aria-hidden="true">✓</span> Fil tillagd</div>
+              <div class="file-name" id="file-name"></div>
+              <div class="file-sub" id="file-sub"></div>
+            </div>
+            <button type="button" id="file-remove" class="btn btn-danger-ghost">Ta bort</button>
+          </div>
+
+          <div id="file-error" class="field-error" role="alert" hidden></div>
+        </div>
+
+        <!-- Mottagare -->
+        <div class="card">
+          <h2 class="card-title"><span class="num" aria-hidden="true">2</span> Mottagare</h2>
+
+          <fieldset class="radio-group">
+            <legend class="label">Brevet ska skickas till</legend>
+            <label class="radio"><input type="radio" name="recipient-type" value="jobseeker" checked> <span>Arbetssökande</span></label>
+            <label class="radio"><input type="radio" name="recipient-type" value="organizer"> <span>Anordnare</span></label>
+          </fieldset>
+
+          <label for="id-input" id="id-label" class="label">Personnummer</label>
+          <p class="help" id="id-help">12 siffror, ÅÅÅÅMMDDNNNN</p>
+          <div class="input-row">
+            <input id="id-input" class="input" type="text" inputmode="numeric" autocomplete="off" placeholder="ÅÅÅÅMMDD-NNNN" aria-describedby="id-help id-error">
+            <button type="button" id="lookup-btn" class="btn btn-secondary">Hämta uppgifter</button>
+          </div>
+          <div id="id-error" class="field-error" role="alert" hidden></div>
+
+          <div id="recipient-card" class="recipient-card" hidden></div>
+
+          <details class="demo-hint">
+            <summary>Testdata för demo</summary>
+            <table>
+              <tr><th scope="row">Arbetssökande</th><td>Joakim VonAnka</td><td>Personnummer <code>199901017777</code></td></tr>
+              <tr><th scope="row">Anordnare</th><td>Joakims Bank AB</td><td>Anordnarnummer <code>666777</code></td></tr>
+            </table>
+          </details>
+        </div>
+
+        <!-- Syfte -->
+        <div class="card">
+          <h2 class="card-title"><span class="num" aria-hidden="true">3</span> Syfte med utskicket</h2>
+          <label for="desc-input" class="label">Beskrivning <span class="req">(obligatorisk)</span></label>
+          <p class="help" id="desc-help">Beskriv kort varför brevet skickas. Beskrivningen används i daganteckningen.</p>
+          <textarea id="desc-input" class="input" rows="4" maxlength="500" aria-describedby="desc-help desc-error desc-count"></textarea>
+          <div class="char-count" id="desc-count">0 / 500 tecken</div>
+          <div id="desc-error" class="field-error" role="alert" hidden></div>
+        </div>
+
+        <div class="form-actions">
+          <div id="form-error" class="form-error" role="alert" hidden></div>
+          <button type="submit" id="to-preview-btn" class="btn btn-primary btn-lg">Gå vidare till förhandsgranskning <span aria-hidden="true">→</span></button>
+        </div>
+      </form>
+    </section>
+
+    <!-- ============ STEG 2: FÖRHANDSGRANSKNING ============ -->
+    <section id="view-preview" class="view" aria-labelledby="preview-title" hidden>
+      <div class="page-head">
+        <h1 id="preview-title" tabindex="-1">Förhandsgranska brevet</h1>
+        <p class="lead">Kontrollera att brevet och mottagaren stämmer innan du skickar. Brevet kan inte redigeras här &ndash; är något fel, ta bort brevet och ladda upp ett nytt.</p>
+      </div>
+
+      <div class="preview-layout">
+        <div class="card preview-doc">
+          <div class="doc-toolbar">
+            <span class="doc-name" id="preview-filename"></span>
+            <span class="doc-pages" id="preview-pages"></span>
+          </div>
+          <div id="pdf-viewer" class="pdf-viewer" aria-live="polite"></div>
+        </div>
+
+        <aside class="preview-side">
+          <div class="card">
+            <h2 class="card-title">Utskicket</h2>
+            <dl class="summary" id="preview-summary"></dl>
+            <div class="notice">
+              <strong>När du skickar brevet</strong>
+              <ul>
+                <li>går brevet till utskrivningscentralen för behandling</li>
+                <li>skapas en daganteckning automatiskt</li>
+                <li>diarieförs brevet automatiskt i mottagarens diarieakt</li>
+              </ul>
+            </div>
+            <div class="side-actions">
+              <button type="button" id="send-btn" class="btn btn-primary btn-block btn-lg">Skicka brevet</button>
+              <button type="button" id="back-btn" class="btn btn-secondary btn-block"><span aria-hidden="true">←</span> Tillbaka</button>
+              <button type="button" id="replace-btn" class="btn btn-danger-ghost btn-block">Ta bort brevet och ladda upp ett nytt</button>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ============ SKICKAR ============ -->
+    <section id="view-sending" class="view" aria-labelledby="sending-title" hidden>
+      <div class="card sending-card">
+        <h1 id="sending-title" tabindex="-1">Skickar brevet…</h1>
+        <ol class="progress" id="progress-list">
+          <li data-step="print"><span class="p-icon" aria-hidden="true"></span><span>Skickar brevet till utskrivningscentralen</span></li>
+          <li data-step="daynote"><span class="p-icon" aria-hidden="true"></span><span>Skapar daganteckning</span></li>
+          <li data-step="diary"><span class="p-icon" aria-hidden="true"></span><span>Diarieför brevet i diarieakten</span></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ============ STEG 3: BEKRÄFTELSE ============ -->
+    <section id="view-done" class="view" aria-labelledby="done-title" hidden>
+      <div class="success-banner" role="status">
+        <div class="success-icon" aria-hidden="true">✓</div>
+        <div>
+          <h1 id="done-title" tabindex="-1">Utskicket har skickats</h1>
+          <p id="done-lead">Brevet har skickats till utskrivningscentralen för behandling.</p>
+        </div>
+      </div>
+
+      <div class="msg-grid">
+        <div class="card msg-card" id="daynote-card"></div>
+        <div class="card msg-card" id="diary-card"></div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">Sammanfattning</h2>
+        <dl class="summary summary-wide" id="done-summary"></dl>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" id="new-btn" class="btn btn-primary btn-lg">Gör ett nytt utskick</button>
+      </div>
+    </section>
+  </main>
+
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+
+  <script src="mockdata.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

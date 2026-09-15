@@ -1,0 +1,2 @@
+Detta är ingen PDF-fil.
+Använd filen för att testa felmeddelandet när man försöker ladda upp något annat än en PDF.
