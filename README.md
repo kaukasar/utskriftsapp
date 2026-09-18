@@ -1,6 +1,6 @@
 # Brevutskick – prototyp
 
-Klickbar prototyp (interaktiv wireframe) för att skicka ut ett brev till en arbetssökande eller en anordnare.
+Klickbar prototyp (interaktiv wireframe) för att skicka ut ett brev till en arbetssökande eller en arbetsgivare.
 Allt körs i webbläsaren – det finns ingen backend, all data är mockad och inga brev skickas på riktigt.
 
 ## Starta
@@ -15,7 +15,7 @@ Allt körs i webbläsaren – det finns ingen backend, all data är mockad och i
 | Typ           | Namn            | Adress                          | Nummer                          |
 |---------------|-----------------|---------------------------------|---------------------------------|
 | Arbetssökande | Joakim VonAnka  | Valvgatan 28, 16556 Ankeborg    | Personnummer `199901017777`     |
-| Anordnare     | Joakims Bank AB | Penninggatan 36, 43572 Ankestad | Anordnarnummer `666777`         |
+| Arbetsgivare  | Joakims Bank AB | Penninggatan 36, 43572 Ankestad | Arbetsgivarnummer `666777`      |
 
 Alla andra nummer ger felmeddelandet att uppgiften inte finns.
 
@@ -24,7 +24,7 @@ Alla andra nummer ger felmeddelandet att uppgiften inte finns.
 | Fil | Används för |
 |-----|-------------|
 | `Kallelse_planeringssamtal_Joakim_VonAnka.pdf` | Giltigt brev (2 sidor) till den arbetssökande |
-| `Begaran_komplettering_Joakims_Bank_AB.pdf` | Giltigt brev (1 sida) till anordnaren |
+| `Begaran_komplettering_Joakims_Bank_AB.pdf` | Giltigt brev (1 sida) till arbetsgivaren |
 | `inte-en-pdf.txt` | Fel filtyp – visar felmeddelande |
 | `falsk-pdf.pdf` | Heter .pdf men är inte en PDF – visar felmeddelande |
 
@@ -32,9 +32,10 @@ Alla andra nummer ger felmeddelandet att uppgiften inte finns.
 
 1. **Brev** – dra och släpp eller välj en PDF. Filnamn och storlek visas. Filen kontrolleras både på filändelse
    och innehåll (PDF-signatur). Endast en fil åt gången; vill man byta tar man bort den först.
-2. **Mottagare** – välj *Arbetssökande* eller *Anordnare*, ange personnummer/anordnarnummer och klicka
+2. **Mottagare** – välj *Arbetssökande* eller *Arbetsgivare*, ange personnummer/arbetsgivarnummer och klicka
    *Hämta uppgifter* (eller Enter).
-3. Namn och adress för mottagaren visas.
+3. Namn och adress för mottagaren visas. För arbetssökande visas även en rad om att informationen är
+   hämtad från sökandeblanketten.
 4. **Syfte** – fyll i beskrivningen (får inte vara tom) och klicka *Gå vidare till förhandsgranskning*.
 5. **Förhandsgranska** – hela brevet visas sida för sida tillsammans med mottagare och syfte.
    Välj *Skicka brevet*, *Tillbaka* eller *Ta bort brevet och ladda upp ett nytt*. Brevet kan inte redigeras.

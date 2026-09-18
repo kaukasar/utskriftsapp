@@ -21,7 +21,7 @@
   window.MockApi = {
     currentUser: CURRENT_USER,
 
-    /** Slår upp arbetssökande (personnummer) eller anordnare (anordnarnummer). Returnerar null om uppgiften saknas. */
+    /** Slår upp arbetssökande (personnummer) eller arbetsgivare (arbetsgivarnummer). Returnerar null om uppgiften saknas. */
     async lookupRecipient(type, id) {
       await delay(600);
       const register = type === 'jobseeker' ? JOBSEEKERS : ORGANIZERS;
@@ -41,7 +41,7 @@
       };
     },
 
-    /** Skapar en daganteckning på den arbetssökande eller anordnaren. */
+    /** Skapar en daganteckning på den arbetssökande eller arbetsgivaren. */
     async createDayNote({ recipient, fileName, description }) {
       await delay(800);
       return {

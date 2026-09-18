@@ -6,9 +6,9 @@ Kravspecifkation och flöde:
 
 1. Handläggaren tar fram en PDF fil av det brevet som denne vill skicka ut. Filen ska läsas in av applikationen. Det ska synas att det har lagts till en fil och dess filnamn. En kontroll ska göras att filen som laddas upp är en pdf fil, annars visas ett lämpligt felmeddelande. Det ska endast vara möjligt att ha en enda uppladdad fil åt gången.
 
-2\. Handläggaren anger personnumret för den sökande som ska ha brevet eller kundnummer för den anordnare som ska ha brevet.
+2\. Handläggaren anger personnumret för den sökande som ska ha brevet eller kundnummer för den arbetsgivare som ska ha brevet.
 
-3\. Namn och adress visas upp för den parten som brevet ska skickas ut till. 
+3\. Namn och adress visas upp för den parten som brevet ska skickas ut till. Om mottagaren är en arbetssökande visas även en informationsrad med texten "Informationen är hämtad från sökandeblanketten".
 
 4\. Handläggaren fyller i en beskrivning av syftet med detta utskick och klickar för att gå vidare. Beskrivningsfältet får inte lämnas tomt.
 
@@ -18,15 +18,15 @@ Handläggaren väljer att skicka brevet efter förhandsgranskningen, som går ti
 
 
 
-&#x20;   \* Daganteckning skapas automatiskt för arbesssökande eller anordnare som har valts. Detta visas genom ett lämpligt meddelande.
+&#x20;   \* Daganteckning skapas automatiskt för arbesssökande eller arbetsgivare som har valts. Detta visas genom ett lämpligt meddelande.
 
 
 
-&#x20;   \* Brevet som skickats ut diarieförs automatiskt i arbetssökandes eller anordnarens diarieakt. Detta visas genom ett lämpligt meddelande.
+&#x20;   \* Brevet som skickats ut diarieförs automatiskt i arbetssökandes eller arbetsgivarens diarieakt. Detta visas genom ett lämpligt meddelande.
 
 
 
-&#x20;   \* En bekräftelse visas för användaren att utskicket har gjorts framgångsrik. I sammanfattningen syns brevets namn och uppgifter on den sökande eller anordnare som har fått brevet.
+&#x20;   \* En bekräftelse visas för användaren att utskicket har gjorts framgångsrik. I sammanfattningen syns brevets namn och uppgifter on den sökande eller arbetsgivare som har fått brevet.
 
 
 
@@ -34,9 +34,9 @@ Skapa följande testdata:
 
 Arbetssökande: Joakim VonAnka, Valvgatan 28, 16556 Ankeborg. Personnummer 199901017777
 
-Anordnare: Joakims Bank AB, Penninggatan 36, 43572 Ankestad. Anordnarnummer 666777
+Arbetsgivare: Joakims Bank AB, Penninggatan 36, 43572 Ankestad. Arbetsgivarnummer 666777
 
 
 
-Om användaren anger något annat personnummer eller anordnarnummer än dessa ska lämpligt felmeddelande visas då (uppgiften inte finns).
+Om användaren anger något annat personnummer eller arbetsgivarnummer än dessa ska lämpligt felmeddelande visas då (uppgiften inte finns).
 

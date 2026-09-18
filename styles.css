@@ -288,6 +288,15 @@ textarea.input { resize: vertical; min-height: 96px; }
 .kv dt { color: var(--muted); font-size: 14px; }
 .kv dd { margin: 0; font-weight: 500; }
 
+.recipient-note {
+  margin: 12px 0 0;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 12.5px;
+  font-style: italic;
+}
+
 .demo-hint { margin-top: 18px; font-size: 13.5px; color: var(--muted); }
 .demo-hint summary { cursor: pointer; width: fit-content; }
 .demo-hint table { margin-top: 8px; border-collapse: collapse; }

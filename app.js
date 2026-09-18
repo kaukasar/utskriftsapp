@@ -16,12 +16,12 @@
       caseFile: 'den arbetssökandes diarieakt',
     },
     organizer: {
-      label: 'Anordnare',
-      idLabel: 'Anordnarnummer',
-      idHelp: 'Anordnarens kundnummer, endast siffror',
+      label: 'Arbetsgivare',
+      idLabel: 'Arbetsgivarnummer',
+      idHelp: 'Arbetsgivarens kundnummer, endast siffror',
       placeholder: 't.ex. 123456',
-      missingId: 'Ange anordnarnummer för den anordnare som ska få brevet.',
-      caseFile: 'anordnarens diarieakt',
+      missingId: 'Ange arbetsgivarnummer för den arbetsgivare som ska få brevet.',
+      caseFile: 'arbetsgivarens diarieakt',
     },
   };
 
@@ -301,7 +301,7 @@
     let formatError = null;
     if (!id) formatError = cfg.missingId;
     else if (type === 'jobseeker' && !/^\d{12}$/.test(id)) formatError = 'Personnumret ska anges med 12 siffror, ÅÅÅÅMMDDNNNN (t.ex. 19990101-7777).';
-    else if (type === 'organizer' && !/^\d+$/.test(id)) formatError = 'Anordnarnumret får bara innehålla siffror.';
+    else if (type === 'organizer' && !/^\d+$/.test(id)) formatError = 'Arbetsgivarnumret får bara innehålla siffror.';
     if (formatError) {
       showFieldError(els.idError, formatError, els.idInput);
       els.idInput.focus();
@@ -337,7 +337,10 @@
       h('dl', { class: 'kv' },
         h('dt', null, 'Namn'), h('dd', { id: 'recipient-name' }, r.name),
         h('dt', null, 'Adress'), h('dd', { id: 'recipient-address' }, addressLines(r)),
-        h('dt', null, cfg.idLabel), h('dd', null, formatId(r.type, r.id))));
+        h('dt', null, cfg.idLabel), h('dd', null, formatId(r.type, r.id))),
+      ...(r.type === 'jobseeker'
+        ? [h('p', { class: 'recipient-note' }, 'Informationen är hämtad från sökandeblanketten')]
+        : []));
     els.recipientCard.hidden = false;
   }
 
