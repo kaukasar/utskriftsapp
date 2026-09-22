@@ -1,5 +1,7 @@
 Skapa en prototyp enligt följande specifikation. Prototypen (webb baserad frontend) ska endast användas i demosyfte likt interaktiva wireframes. Bygg inget backend, använd endast mockar så att användaren kan få prova på applikationen och dess features.
 
+Applikationen heter "Digitala Utskick" och namnet visas i sidhuvudets vänstra hörn.
+
 
 
 Kravspecifkation och flöde:
@@ -18,11 +20,11 @@ Handläggaren väljer att skicka brevet efter förhandsgranskningen, som går ti
 
 
 
-&#x20;   \* Daganteckning skapas automatiskt för arbesssökande eller arbetsgivare som har valts. Detta visas genom ett lämpligt meddelande.
-
-
-
 &#x20;   \* Brevet som skickats ut diarieförs automatiskt i arbetssökandes eller arbetsgivarens diarieakt. Detta visas genom ett lämpligt meddelande.
+
+
+
+&#x20;   \* Daganteckning skapas automatiskt för arbesssökande eller arbetsgivare som har valts. Detta visas genom ett lämpligt meddelande. Daganteckningen innehåller syftet med utskicket, diarienumret för akten som brevet diarieförts i samt utskickets ID (för felsökning). Brevets filnamn ska inte stå i daganteckningen. Diarieföringen sker därför före daganteckningen, så att diarienumret kan tas med.
 
 
 

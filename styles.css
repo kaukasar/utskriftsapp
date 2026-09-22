@@ -41,14 +41,6 @@ h1:focus, h2:focus { outline: none; }
 }
 
 /* ---------- Ramverk ---------- */
-.proto-banner {
-  background: var(--warning-soft);
-  color: #5c4400;
-  text-align: center;
-  font-size: 13px;
-  padding: 6px 12px;
-  border-bottom: 1px solid #efd98a;
-}
 .app-header {
   background: var(--header);
   color: #fff;

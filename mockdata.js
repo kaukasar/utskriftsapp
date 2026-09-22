@@ -41,14 +41,18 @@
       };
     },
 
-    /** Skapar en daganteckning på den arbetssökande eller arbetsgivaren. */
-    async createDayNote({ recipient, fileName, description }) {
+    /**
+     * Skapar en daganteckning på den arbetssökande eller arbetsgivaren.
+     * Diarienummer och utskicks-ID tas med för spårbarhet vid felsökning, därför
+     * skapas daganteckningen efter att brevet har diarieförts.
+     */
+    async createDayNote({ recipient, description, diaryNumber, shipmentId }) {
       await delay(800);
       return {
         id: `DA-${randomDigits(7)}`,
         createdAt: new Date(),
         heading: 'Brev skickat',
-        text: `Brevet ”${fileName}” har skickats till ${recipient.name} via utskrivningscentralen.\nSyfte: ${description}`,
+        text: `Brevet har skickats till ${recipient.name} via utskrivningscentralen.\nSyfte: ${description}\nDiarienummer: ${diaryNumber}\nUtskicks-ID: ${shipmentId}`,
         author: CURRENT_USER,
       };
     },

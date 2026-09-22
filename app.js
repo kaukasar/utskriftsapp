@@ -536,7 +536,7 @@
     const cfg = RECIPIENT_TYPES[recipient.type];
     const payload = { recipient, fileName: state.file.name, description: state.description };
 
-    ['print', 'daynote', 'diary'].forEach((step) => setProgress(step, 'idle'));
+    ['print', 'diary', 'daynote'].forEach((step) => setProgress(step, 'idle'));
     showView('sending');
 
     try {
@@ -544,15 +544,20 @@
       const shipment = await window.MockApi.sendToPrintCenter(payload);
       setProgress('print', 'done');
 
-      setProgress('daynote', 'active');
-      const dayNote = await window.MockApi.createDayNote(payload);
-      setProgress('daynote', 'done');
-      toast('success', 'Daganteckning skapad', `En daganteckning har skapats automatiskt för ${recipient.name}.`);
-
+      // Diarieförs före daganteckningen, så att diarienumret kan tas med i anteckningen.
       setProgress('diary', 'active');
       const diary = await window.MockApi.registerInCaseFile(payload);
       setProgress('diary', 'done');
       toast('success', 'Brevet har diarieförts', `Brevet har diarieförts i ${cfg.caseFile} (${diary.diaryNumber}).`);
+
+      setProgress('daynote', 'active');
+      const dayNote = await window.MockApi.createDayNote({
+        ...payload,
+        diaryNumber: diary.diaryNumber,
+        shipmentId: shipment.shipmentId,
+      });
+      setProgress('daynote', 'done');
+      toast('success', 'Daganteckning skapad', `En daganteckning har skapats automatiskt för ${recipient.name}.`);
 
       await delay(500);
       renderDone({ shipment, dayNote, diary });
