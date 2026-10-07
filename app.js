@@ -109,7 +109,6 @@
   }
 
   const pagesText = (n) => (n === 1 ? '1 sida' : `${n} sidor`);
-  const addressLines = (r) => [r.street, h('br'), `${r.postalCode} ${r.city}`];
 
   function showFieldError(errorEl, message, input) {
     errorEl.textContent = message;
@@ -336,7 +335,7 @@
         h('span', { class: 'found' }, '✓ Mottagare hittad')),
       h('dl', { class: 'kv' },
         h('dt', null, 'Namn'), h('dd', { id: 'recipient-name' }, r.name),
-        h('dt', null, 'Adress'), h('dd', { id: 'recipient-address' }, addressLines(r)),
+        h('dt', null, 'Ort'), h('dd', { id: 'recipient-city' }, r.city),
         h('dt', null, cfg.idLabel), h('dd', null, formatId(r.type, r.id))),
       ...(r.type === 'jobseeker'
         ? [h('p', { class: 'recipient-note' }, 'Informationen är hämtad från sökandeblanketten')]
@@ -438,7 +437,7 @@
     fillSummary(els.previewSummary, [
       ['Brev', state.file.name],
       ['Mottagare', [r.name, ' ', h('span', { class: 'muted' }, `(${cfg.label.toLowerCase()})`)]],
-      ['Adress', addressLines(r)],
+      ['Ort', r.city],
       [cfg.idLabel, formatId(r.type, r.id)],
       ['Syfte med utskicket', state.description, 'pre'],
     ]);
@@ -600,7 +599,7 @@
       ['Mottagare', r.name],
       ['Typ av mottagare', cfg.label],
       [cfg.idLabel, formatId(r.type, r.id)],
-      ['Adress', addressLines(r)],
+      ['Ort', r.city],
       ['Skickat', formatDateTime(shipment.sentAt)],
       ['Utskicks-ID', shipment.shipmentId],
       ['Syfte med utskicket', state.description, 'pre span-2'],

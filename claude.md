@@ -10,7 +10,7 @@ Kravspecifkation och flöde:
 
 2\. Handläggaren anger personnumret för den sökande som ska ha brevet eller kundnummer för den arbetsgivare som ska ha brevet.
 
-3\. Namn och adress visas upp för den parten som brevet ska skickas ut till. Om mottagaren är en arbetssökande visas även en informationsrad med texten "Informationen är hämtad från sökandeblanketten".
+3\. Uppgifter visas upp för den parten som brevet ska skickas ut till. De enda uppgifter som får visas i applikationen är personnummer/arbetsgivarnummer, namn och ort. Gatunamn, gatunummer och postnummer ska inte visas någonstans, varken vid uppslaget, i förhandsgranskningen eller i bekräftelsen. Om mottagaren är en arbetssökande visas även en informationsrad med texten "Informationen är hämtad från sökandeblanketten".
 
 4\. Handläggaren fyller i en beskrivning av syftet med detta utskick och klickar för att gå vidare. Beskrivningsfältet får inte lämnas tomt.
 
