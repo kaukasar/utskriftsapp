@@ -20,11 +20,9 @@ Handläggaren väljer att skicka brevet efter förhandsgranskningen, som går ti
 
 
 
-&#x20;   \* Brevet som skickats ut diarieförs automatiskt i arbetssökandes eller arbetsgivarens diarieakt. Detta visas genom ett lämpligt meddelande.
+&#x20;   \* Daganteckning skapas automatiskt för arbesssökande eller arbetsgivare som har valts. Detta visas genom ett lämpligt meddelande. Daganteckningen innehåller syftet med utskicket samt utskickets ID (för felsökning). Brevets filnamn ska inte stå i daganteckningen.
 
-
-
-&#x20;   \* Daganteckning skapas automatiskt för arbesssökande eller arbetsgivare som har valts. Detta visas genom ett lämpligt meddelande. Daganteckningen innehåller syftet med utskicket, diarienumret för akten som brevet diarieförts i samt utskickets ID (för felsökning). Brevets filnamn ska inte stå i daganteckningen. Diarieföringen sker därför före daganteckningen, så att diarienumret kan tas med.
+Applikationen diarieför inte brevet. Det finns ingen diarieföring, inga diariemeddelanden och inga diarieuppgifter någonstans i applikationen.
 
 
 

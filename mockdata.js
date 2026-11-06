@@ -43,31 +43,16 @@
 
     /**
      * Skapar en daganteckning på den arbetssökande eller arbetsgivaren.
-     * Diarienummer och utskicks-ID tas med för spårbarhet vid felsökning, därför
-     * skapas daganteckningen efter att brevet har diarieförts.
+     * Utskicks-ID tas med för spårbarhet vid felsökning.
      */
-    async createDayNote({ recipient, description, diaryNumber, shipmentId }) {
+    async createDayNote({ recipient, description, shipmentId }) {
       await delay(800);
       return {
         id: `DA-${randomDigits(7)}`,
         createdAt: new Date(),
         heading: 'Brev skickat',
-        text: `Brevet har skickats till ${recipient.name} via utskrivningscentralen.\nSyfte: ${description}\nDiarienummer: ${diaryNumber}\nUtskicks-ID: ${shipmentId}`,
+        text: `Brevet har skickats till ${recipient.name} via utskrivningscentralen.\nSyfte: ${description}\nUtskicks-ID: ${shipmentId}`,
         author: CURRENT_USER,
-      };
-    },
-
-    /** Diarieför det skickade brevet i mottagarens diarieakt. */
-    async registerInCaseFile({ recipient, fileName }) {
-      await delay(800);
-      const now = new Date();
-      return {
-        diaryNumber: `Dnr ${now.getFullYear()}/${randomDigits(6)}`,
-        documentNumber: String(Math.floor(Math.random() * 40) + 2),
-        documentType: 'Utgående brev',
-        title: fileName,
-        recipientName: recipient.name,
-        registeredAt: now,
       };
     },
   };

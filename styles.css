@@ -375,8 +375,6 @@ textarea.input { resize: vertical; min-height: 96px; }
   font-size: 24px; font-weight: 700;
   display: grid; place-items: center;
 }
-.msg-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin-bottom: 18px; }
-.msg-grid .card { margin-bottom: 0; }
 .msg-card h2 { display: flex; align-items: center; gap: 10px; margin: 0 0 6px; font-size: 17px; }
 .msg-card h2 .ok { width: 24px; height: 24px; border-radius: 50%; background: var(--success); color: #fff; font-size: 13px; display: grid; place-items: center; flex: none; }
 .msg-card p { margin: 0 0 12px; color: var(--muted); }
@@ -415,7 +413,7 @@ textarea.input { resize: vertical; min-height: 96px; }
 @media (max-width: 900px) {
   .preview-layout { grid-template-columns: 1fr; }
   .preview-side { position: static; }
-  .msg-grid, .summary-wide { grid-template-columns: 1fr; }
+  .summary-wide { grid-template-columns: 1fr; }
   .summary-wide > div:nth-last-child(2) { border-bottom: 1px solid #edf0f3; }
 }
 @media (max-width: 600px) {

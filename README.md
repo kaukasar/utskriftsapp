@@ -39,8 +39,8 @@ Alla andra nummer ger felmeddelandet att uppgiften inte finns.
 4. **Syfte** – fyll i beskrivningen (får inte vara tom) och klicka *Gå vidare till förhandsgranskning*.
 5. **Förhandsgranska** – hela brevet visas sida för sida tillsammans med mottagare och syfte.
    Välj *Skicka brevet*, *Tillbaka* eller *Ta bort brevet och ladda upp ett nytt*. Brevet kan inte redigeras.
-6. **Skickat** – brevet går till utskrivningscentralen, en daganteckning skapas och brevet diarieförs
-   (visas både som notiser och i bekräftelsen). Sammanfattningen visar brevets namn och mottagarens uppgifter.
+6. **Skickat** – brevet går till utskrivningscentralen och en daganteckning skapas
+   (visas både som notis och i bekräftelsen). Sammanfattningen visar brevets namn och mottagarens uppgifter.
 
 ## Filer
 
@@ -49,4 +49,5 @@ Alla andra nummer ger felmeddelandet att uppgiften inte finns.
 | `index.html` | Vyer: uppgifter, förhandsgranskning, skickar, bekräftelse |
 | `styles.css` | Utseende och responsiv layout |
 | `app.js` | Flöde, validering, PDF-förhandsgranskning |
-| `mockdata.js` | Mockat API: testdata, uppslag av mottagare, utskrivningscentral, daganteckning, diarieföring |
+| `mockdata.js` | Mockat API: testdata, uppslag av mottagare, utskrivningscentral, daganteckning |
+| `anvandarguide.md` | Användarguide för handläggare (flöde, regler, felmeddelanden, vanliga frågor, begrepp) |

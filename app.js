@@ -13,7 +13,6 @@
       idHelp: '12 siffror, ÅÅÅÅMMDDNNNN',
       placeholder: 'ÅÅÅÅMMDD-NNNN',
       missingId: 'Ange personnummer för den arbetssökande som ska få brevet.',
-      caseFile: 'den arbetssökandes diarieakt',
     },
     organizer: {
       label: 'Arbetsgivare',
@@ -21,7 +20,6 @@
       idHelp: 'Arbetsgivarens kundnummer, endast siffror',
       placeholder: 't.ex. 123456',
       missingId: 'Ange arbetsgivarnummer för den arbetsgivare som ska få brevet.',
-      caseFile: 'arbetsgivarens diarieakt',
     },
   };
 
@@ -68,7 +66,6 @@
     progressList: $('progress-list'),
     doneLead: $('done-lead'),
     daynoteCard: $('daynote-card'),
-    diaryCard: $('diary-card'),
     doneSummary: $('done-summary'),
     newBtn: $('new-btn'),
     toasts: $('toasts'),
@@ -532,10 +529,9 @@
   els.sendBtn.addEventListener('click', async () => {
     els.sendBtn.disabled = true;
     const recipient = state.recipient;
-    const cfg = RECIPIENT_TYPES[recipient.type];
     const payload = { recipient, fileName: state.file.name, description: state.description };
 
-    ['print', 'diary', 'daynote'].forEach((step) => setProgress(step, 'idle'));
+    ['print', 'daynote'].forEach((step) => setProgress(step, 'idle'));
     showView('sending');
 
     try {
@@ -543,23 +539,13 @@
       const shipment = await window.MockApi.sendToPrintCenter(payload);
       setProgress('print', 'done');
 
-      // Diarieförs före daganteckningen, så att diarienumret kan tas med i anteckningen.
-      setProgress('diary', 'active');
-      const diary = await window.MockApi.registerInCaseFile(payload);
-      setProgress('diary', 'done');
-      toast('success', 'Brevet har diarieförts', `Brevet har diarieförts i ${cfg.caseFile} (${diary.diaryNumber}).`);
-
       setProgress('daynote', 'active');
-      const dayNote = await window.MockApi.createDayNote({
-        ...payload,
-        diaryNumber: diary.diaryNumber,
-        shipmentId: shipment.shipmentId,
-      });
+      const dayNote = await window.MockApi.createDayNote({ ...payload, shipmentId: shipment.shipmentId });
       setProgress('daynote', 'done');
       toast('success', 'Daganteckning skapad', `En daganteckning har skapats automatiskt för ${recipient.name}.`);
 
       await delay(500);
-      renderDone({ shipment, dayNote, diary });
+      renderDone({ shipment, dayNote });
       showView('done');
     } finally {
       els.sendBtn.disabled = false;
@@ -568,7 +554,7 @@
 
   // ---------------------------------------------------------------- Bekräftelse
 
-  function renderDone({ shipment, dayNote, diary }) {
+  function renderDone({ shipment, dayNote }) {
     const r = state.recipient;
     const cfg = RECIPIENT_TYPES[r.type];
 
@@ -582,16 +568,6 @@
         h('dt', null, 'Rubrik'), h('dd', null, dayNote.heading),
         h('dt', null, 'Anteckning'), h('dd', { class: 'pre' }, dayNote.text),
         h('dt', null, 'Registrerad av'), h('dd', null, dayNote.author)));
-
-    els.diaryCard.replaceChildren(
-      h('h2', null, h('span', { class: 'ok', 'aria-hidden': 'true' }, '✓'), 'Brevet har diarieförts'),
-      h('p', null, `Brevet har diarieförts automatiskt i ${cfg.caseFile}.`),
-      h('dl', { class: 'kv' },
-        h('dt', null, 'Diarienummer'), h('dd', null, diary.diaryNumber),
-        h('dt', null, 'Handling nr'), h('dd', null, diary.documentNumber),
-        h('dt', null, 'Handlingstyp'), h('dd', null, diary.documentType),
-        h('dt', null, 'Handling'), h('dd', null, diary.title),
-        h('dt', null, 'Diariefört'), h('dd', null, formatDateTime(diary.registeredAt))));
 
     fillSummary(els.doneSummary, [
       ['Brev', [state.file.name, state.pageCount ? h('span', { class: 'muted' }, ` (${pagesText(state.pageCount)})`) : null]],
