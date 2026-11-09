@@ -1,6 +1,6 @@
 # Användarguide – Digitala Utskick
 
-Med Digitala Utskick skickar du ett brev, som du har tagit fram som PDF-fil, till en arbetssökande eller en arbetsgivare. När du skickar brevet går det till utskrivningscentralen och en daganteckning skapas automatiskt. Du behöver inte skriva daganteckningen för hand.
+Med Digitala Utskick skickar du ett brev, som du har tagit fram som PDF-fil, till en arbetssökande, en arbetsgivare eller en extern mottagare. När du skickar brevet går det till utskrivningscentralen. Till en arbetssökande skapas dessutom en daganteckning automatiskt, så du behöver inte skriva den för hand.
 
 ## Innehåll
 
@@ -20,7 +20,7 @@ Längst upp på sidan visar en stegindikator var du är: **Uppgifter → Förhan
 
 | Steg | Det här gör du |
 |------|----------------|
-| **1. Uppgifter** | Laddar upp brevet (PDF), anger mottagare och beskriver syftet med utskicket. |
+| **1. Uppgifter** | Laddar upp brevet (PDF), anger mottagare och, för arbetssökande, beskriver syftet med utskicket. |
 | **2. Förhandsgranska** | Kontrollerar att brevet och mottagaren stämmer och skickar brevet. |
 | **3. Skickat** | Ser bekräftelsen med daganteckning och en sammanfattning. |
 
@@ -30,7 +30,7 @@ Du behöver ha brevet färdigt som **PDF-fil** innan du börjar. Applikationen k
 
 ## 2. Steg 1 – Uppgifter
 
-Sidan heter **Nytt brevutskick** och har tre delar: **Brev**, **Mottagare** och **Syfte med utskicket**.
+Sidan heter **Nytt brevutskick** och har tre delar: **Brev**, **Mottagare** och **Syfte med utskicket**. Delen *Syfte med utskicket* visas bara när mottagaren är en arbetssökande.
 
 ### 2.1 Brev – ladda upp PDF-filen
 
@@ -49,7 +49,11 @@ När filen har lästs in visas **Fil tillagd** tillsammans med filnamn och storl
 
 ### 2.2 Mottagare – ange vem brevet ska till
 
-1. Välj **Arbetssökande** eller **Arbetsgivare** under *Brevet ska skickas till*.
+Välj först mottagartyp under *Brevet ska skickas till*: **Arbetssökande**, **Arbetsgivare** eller **Extern mottagare**.
+
+#### Arbetssökande och arbetsgivare
+
+1. Välj **Arbetssökande** eller **Arbetsgivare**.
 2. Ange numret:
    - **Arbetssökande:** personnummer med 12 siffror, `ÅÅÅÅMMDDNNNN`. Du kan skriva med eller utan bindestreck, till exempel `199901017777` eller `19990101-7777`.
    - **Arbetsgivare:** arbetsgivarnummer (arbetsgivarens kundnummer). Endast siffror.
@@ -74,7 +78,28 @@ För en **arbetssökande** visas dessutom raden *Informationen är hämtad från
 - Byter du mellan *Arbetssökande* och *Arbetsgivare* töms nummerfältet och resultatet.
 - Hittas ingen mottagare med det angivna numret visas ett felmeddelande (se [kapitel 5](#5-felmeddelanden-och-vad-du-gör)).
 
+#### Extern mottagare
+
+För en extern mottagare finns inget uppslag. I stället visas ett formulär där du själv fyller i mottagarens uppgifter:
+
+| Fält | Regel |
+|------|-------|
+| **Förnamn** | Obligatoriskt |
+| **Efternamn** | Obligatoriskt |
+| **Postadress** | Obligatoriskt |
+| **Postnummer** | Obligatoriskt, 5 siffror (med eller utan mellanslag, till exempel *123 45*) |
+| **Postort** | Obligatoriskt |
+| **Personnummer** | Obligatoriskt, 12 siffror, `ÅÅÅÅMMDDNNNN` (med eller utan bindestreck) |
+
+Fälten kontrolleras när du klickar på **Gå vidare till förhandsgranskning**. Fält som saknas eller är felaktiga markeras med ett felmeddelande. Det du har fyllt i finns kvar om du byter mottagartyp och sedan går tillbaka till *Extern mottagare*.
+
+> **Obs!** Den adress du fyller i visas i förhandsgranskningen så att du kan kontrollera den. I bekräftelsen visas den inte, där syns namn, ort och personnummer.
+
+Det skapas ingen daganteckning för en extern mottagare och delen *Syfte med utskicket* visas inte.
+
 ### 2.3 Syfte med utskicket – beskriv varför brevet skickas
+
+Den här delen visas **endast när mottagaren är en arbetssökande**. Väljer du *Arbetsgivare* eller *Extern mottagare* är den dold, eftersom det inte skapas någon daganteckning för dem.
 
 Skriv en beskrivning i fältet **Beskrivning**. Fältet är **obligatoriskt** och får inte lämnas tomt. En beskrivning som bara består av mellanslag räknas som tom.
 
@@ -86,8 +111,8 @@ Skriv en beskrivning i fältet **Beskrivning**. Fältet är **obligatoriskt** oc
 Klicka på **Gå vidare till förhandsgranskning**. Applikationen kontrollerar då att:
 
 - ett brev är uppladdat,
-- mottagarens uppgifter är hämtade (det räcker inte att bara ha skrivit in numret),
-- beskrivningen är ifylld.
+- mottagarens uppgifter är hämtade (arbetssökande och arbetsgivare, det räcker inte att bara ha skrivit in numret) eller fullständigt ifyllda (extern mottagare),
+- beskrivningen är ifylld (endast för arbetssökande).
 
 Saknas något markeras de berörda fälten med ett felmeddelande. Under knappen visas en sammanfattning, till exempel *3 uppgifter saknas eller är felaktiga. Se de markerade fälten ovan.* Markören flyttas till det första fältet som behöver rättas. När allt är korrekt kommer du till förhandsgranskningen.
 
@@ -102,15 +127,15 @@ Här kontrollerar du allt innan brevet skickas. Sidan är uppdelad i två delar.
 **Till höger – rutan *Utskicket***, med:
 
 - **Brev** – filnamnet
-- **Mottagare** – namn och typ (arbetssökande eller arbetsgivare)
-- **Ort**
+- **Mottagare** – namn och typ (arbetssökande, arbetsgivare eller extern mottagare)
+- **Ort** (för en extern mottagare visas i stället **Adress**: postadress, postnummer och postort)
 - **Personnummer** eller **Arbetsgivarnummer**
-- **Syfte med utskicket** – din beskrivning
+- **Syfte med utskicket** – din beskrivning (endast för arbetssökande)
 
 Under sammanfattningen finns en ruta, *När du skickar brevet*, som beskriver vad som händer:
 
 - brevet går till utskrivningscentralen för behandling
-- en daganteckning skapas automatiskt
+- en daganteckning skapas automatiskt (endast för arbetssökande)
 
 ### Dina val
 
@@ -128,20 +153,20 @@ Under sammanfattningen finns en ruta, *När du skickar brevet*, som beskriver va
 
 ### 4.1 När du klickar på Skicka brevet
 
-Sidan *Skickar brevet…* visas med två delmoment som bockas av ett i taget. Vänta tills de är klara och stäng inte fliken under tiden.
+Sidan *Skickar brevet…* visar delmomenten som bockas av ett i taget. Vänta tills de är klara och stäng inte fliken under tiden.
 
 1. **Skickar brevet till utskrivningscentralen**
-2. **Skapar daganteckning**
+2. **Skapar daganteckning** (visas bara för arbetssökande)
 
-När daganteckningen är klar visas ett meddelande i övre högra hörnet: *Daganteckning skapad*, med mottagarens namn.
+För en **arbetssökande** visas ett meddelande i övre högra hörnet när daganteckningen är klar: *Daganteckning skapad*, med mottagarens namn. Meddelandet försvinner av sig självt efter några sekunder. Du kan också stänga det med **×**.
 
-Meddelandet försvinner av sig självt efter några sekunder. Du kan också stänga det med **×**.
+För **arbetsgivare** och **extern mottagare** skapas ingen daganteckning. Då finns bara det första delmomentet och inget meddelande visas.
 
 ### 4.2 Bekräftelsen
 
 Sidan **Utskicket har skickats** visar att allt gått bra. Den innehåller:
 
-**Daganteckning skapad**
+**Daganteckning skapad** (endast för arbetssökande)
 
 | Fält | Innehåll |
 |------|----------|
@@ -154,9 +179,9 @@ Sidan **Utskicket har skickats** visar att allt gått bra. Den innehåller:
 
 **Sammanfattning**
 
-Brevets filnamn och sidantal, utskickets status (*Mottaget av utskrivningscentralen*), mottagarens namn, typ, nummer och ort, när brevet skickades, **utskicks-ID** samt syftet med utskicket.
+Brevets filnamn och sidantal, utskickets status (*Mottaget av utskrivningscentralen*), mottagarens namn, typ, nummer och ort, när brevet skickades, **utskicks-ID** samt syftet med utskicket (endast för arbetssökande).
 
-> **Spara det du behöver.** Bekräftelsen visas bara en gång. Behöver du utskicks-ID senare hittar du det i daganteckningen.
+> **Spara det du behöver.** Bekräftelsen visas bara en gång. För en arbetssökande hittar du utskicks-ID senare i daganteckningen. För arbetsgivare och externa mottagare finns det ingen daganteckning, så notera utskicks-ID här om du behöver det.
 
 ### 4.3 Göra ett nytt utskick
 
@@ -187,10 +212,12 @@ Klicka på **Gör ett nytt utskick**. Formuläret nollställs: inget brev är up
 | *Arbetsgivarnumret får bara innehålla siffror.* | Ta bort bokstäver och andra tecken. |
 | *Uppgiften finns inte. Det finns ingen arbetssökande med personnummer … Kontrollera numret och försök igen.* | Ingen arbetssökande har det personnumret. Kontrollera siffrorna. |
 | *Uppgiften finns inte. Det finns ingen arbetsgivare med arbetsgivarnummer … Kontrollera numret och försök igen.* | Ingen arbetsgivare har det numret. Kontrollera siffrorna. |
+| *Ange förnamn.* / *Ange efternamn.* / *Ange postadress.* / *Ange postnummer.* / *Ange postort.* / *Ange personnummer.* | Gäller extern mottagare. Fältet är tomt. Fyll i det. |
+| *Postnumret ska anges med 5 siffror, t.ex. 123 45.* | Gäller extern mottagare. Ange postnumret med fem siffror. |
 | *Vänta tills mottagarens uppgifter har hämtats.* | Du klickade på **Gå vidare** medan uppgifterna fortfarande hämtades. Vänta en stund och försök igen. |
 | Meddelande om att du ska klicka på **Hämta uppgifter** | Du har skrivit in ett nummer men inte hämtat uppgifterna. Klicka på **Hämta uppgifter** och kontrollera att rätt mottagare visas. |
 
-### Syfte
+### Syfte (endast arbetssökande)
 
 | Meddelande | Orsak och åtgärd |
 |------------|------------------|
@@ -210,10 +237,13 @@ Nej. Varje utskick gäller ett brev och en mottagare. Klicka på **Gör ett nytt
 Nej, det finns ingen ångra-funktion när du har klickat på **Skicka brevet**. Kontrollera därför brevet och mottagaren noga i förhandsgranskningen.
 
 **Jag valde fel typ av mottagare. Förlorar jag något?**
-Byter du mellan *Arbetssökande* och *Arbetsgivare* töms nummerfältet och mottagarens uppgifter. Brev och beskrivning finns kvar.
+Byter du mellan *Arbetssökande* och *Arbetsgivare* töms nummerfältet och mottagarens uppgifter. Brev och beskrivning finns kvar. Det du har fyllt i för en *Extern mottagare* finns också kvar. Beskrivningen sparas men visas bara för arbetssökande.
 
 **Varför visas ingen adress för mottagaren?**
-Applikationen visar bara personnummer/arbetsgivarnummer, namn och ort. Gatuadress och postnummer visas aldrig.
+Applikationen visar bara personnummer/arbetsgivarnummer, namn och ort. Gatuadress och postnummer visas aldrig. Enda undantaget är en extern mottagare, där den adress du själv fyllt i visas i förhandsgranskningen.
+
+**Varför saknas "Syfte med utskicket" när jag väljer arbetsgivare eller extern mottagare?**
+Syftet används bara i daganteckningen, och daganteckning skapas endast för arbetssökande.
 
 **Vad betyder raden *Informationen är hämtad från sökandeblanketten*?**
 Den visas för arbetssökande och anger att uppgifterna om mottagaren är hämtade från sökandeblanketten.
@@ -222,7 +252,7 @@ Den visas för arbetssökande och anger att uppgifterna om mottagaren är hämta
 Allt som inte är skickat försvinner. Slutför eller spara dina uppgifter först.
 
 **Var hittar jag utskicks-ID efteråt?**
-I daganteckningen som skapades vid utskicket.
+För arbetssökande i daganteckningen som skapades vid utskicket. För arbetsgivare och externa mottagare finns det ingen daganteckning, så utskicks-ID syns bara i bekräftelsen.
 
 ---
 
@@ -232,6 +262,7 @@ I daganteckningen som skapades vid utskicket.
 |---------|-----------|
 | **Arbetssökande** | Person som brevet skickas till. Identifieras med personnummer. |
 | **Arbetsgivare** | Arbetsgivare som brevet skickas till. Identifieras med arbetsgivarnummer (kundnummer). |
+| **Extern mottagare** | Person utanför de två andra grupperna. Du fyller själv i förnamn, efternamn, postadress, postnummer, postort och personnummer. |
 | **Sökandeblanketten** | Blanketten som uppgifterna om den arbetssökande hämtas från. |
 | **Utskrivningscentralen** | Den funktion som tar emot brevet och behandlar det för utskrift och utskick. |
 | **Daganteckning** | Anteckning som skapas automatiskt på mottagaren när brevet har skickats. |

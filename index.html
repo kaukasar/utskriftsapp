@@ -67,29 +67,71 @@
             <legend class="label">Brevet ska skickas till</legend>
             <label class="radio"><input type="radio" name="recipient-type" value="jobseeker" checked> <span>Arbetssökande</span></label>
             <label class="radio"><input type="radio" name="recipient-type" value="organizer"> <span>Arbetsgivare</span></label>
+            <label class="radio"><input type="radio" name="recipient-type" value="external"> <span>Extern mottagare</span></label>
           </fieldset>
 
-          <label for="id-input" id="id-label" class="label">Personnummer</label>
-          <p class="help" id="id-help">12 siffror, ÅÅÅÅMMDDNNNN</p>
-          <div class="input-row">
-            <input id="id-input" class="input" type="text" inputmode="numeric" autocomplete="off" placeholder="ÅÅÅÅMMDD-NNNN" aria-describedby="id-help id-error">
-            <button type="button" id="lookup-btn" class="btn btn-secondary">Hämta uppgifter</button>
+          <!-- Arbetssökande och arbetsgivare: slå upp med nummer -->
+          <div id="lookup-section">
+            <label for="id-input" id="id-label" class="label">Personnummer</label>
+            <p class="help" id="id-help">12 siffror, ÅÅÅÅMMDDNNNN</p>
+            <div class="input-row">
+              <input id="id-input" class="input" type="text" inputmode="numeric" autocomplete="off" placeholder="ÅÅÅÅMMDD-NNNN" aria-describedby="id-help id-error">
+              <button type="button" id="lookup-btn" class="btn btn-secondary">Hämta uppgifter</button>
+            </div>
+            <div id="id-error" class="field-error" role="alert" hidden></div>
+
+            <div id="recipient-card" class="recipient-card" hidden></div>
+
+            <details class="demo-hint">
+              <summary>Testdata för demo</summary>
+              <table>
+                <tr><th scope="row">Arbetssökande</th><td>Joakim VonAnka</td><td>Personnummer <code>199901017777</code></td></tr>
+                <tr><th scope="row">Arbetsgivare</th><td>Joakims Bank AB</td><td>Arbetsgivarnummer <code>666777</code></td></tr>
+              </table>
+            </details>
           </div>
-          <div id="id-error" class="field-error" role="alert" hidden></div>
 
-          <div id="recipient-card" class="recipient-card" hidden></div>
-
-          <details class="demo-hint">
-            <summary>Testdata för demo</summary>
-            <table>
-              <tr><th scope="row">Arbetssökande</th><td>Joakim VonAnka</td><td>Personnummer <code>199901017777</code></td></tr>
-              <tr><th scope="row">Arbetsgivare</th><td>Joakims Bank AB</td><td>Arbetsgivarnummer <code>666777</code></td></tr>
-            </table>
-          </details>
+          <!-- Extern mottagare: uppgifterna fylls i för hand -->
+          <div id="external-section" hidden>
+            <p class="help">Fyll i mottagarens uppgifter. Alla fält är obligatoriska.</p>
+            <div class="form-grid">
+              <div class="field">
+                <label for="ext-firstname" class="label">Förnamn</label>
+                <input id="ext-firstname" class="input" type="text" autocomplete="off" aria-describedby="ext-firstname-error">
+                <div id="ext-firstname-error" class="field-error" role="alert" hidden></div>
+              </div>
+              <div class="field">
+                <label for="ext-lastname" class="label">Efternamn</label>
+                <input id="ext-lastname" class="input" type="text" autocomplete="off" aria-describedby="ext-lastname-error">
+                <div id="ext-lastname-error" class="field-error" role="alert" hidden></div>
+              </div>
+              <div class="field field-wide">
+                <label for="ext-address" class="label">Postadress</label>
+                <input id="ext-address" class="input" type="text" autocomplete="off" aria-describedby="ext-address-error">
+                <div id="ext-address-error" class="field-error" role="alert" hidden></div>
+              </div>
+              <div class="field">
+                <label for="ext-zip" class="label">Postnummer</label>
+                <input id="ext-zip" class="input" type="text" inputmode="numeric" autocomplete="off" placeholder="123 45" aria-describedby="ext-zip-error">
+                <div id="ext-zip-error" class="field-error" role="alert" hidden></div>
+              </div>
+              <div class="field">
+                <label for="ext-city" class="label">Postort</label>
+                <input id="ext-city" class="input" type="text" autocomplete="off" aria-describedby="ext-city-error">
+                <div id="ext-city-error" class="field-error" role="alert" hidden></div>
+              </div>
+              <div class="field field-wide">
+                <label for="ext-pnr" class="label">Personnummer</label>
+                <p class="help" id="ext-pnr-help">12 siffror, ÅÅÅÅMMDDNNNN</p>
+                <input id="ext-pnr" class="input" type="text" inputmode="numeric" autocomplete="off" placeholder="ÅÅÅÅMMDD-NNNN" aria-describedby="ext-pnr-help ext-pnr-error">
+                <div id="ext-pnr-error" class="field-error" role="alert" hidden></div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <!-- Syfte -->
-        <div class="card">
+        <!-- Syfte (endast för arbetssökande) -->
+        <div class="card" id="purpose-card">
           <h2 class="card-title"><span class="num" aria-hidden="true">3</span> Syfte med utskicket</h2>
           <label for="desc-input" class="label">Beskrivning <span class="req">(obligatorisk)</span></label>
           <p class="help" id="desc-help">Beskriv varför brevet skickas. Beskrivningen används i daganteckningen.</p>
@@ -129,7 +171,7 @@
               <strong>När du skickar brevet</strong>
               <ul>
                 <li>går brevet till utskrivningscentralen för behandling</li>
-                <li>skapas en daganteckning automatiskt</li>
+                <li id="notice-daynote">skapas en daganteckning automatiskt</li>
               </ul>
             </div>
             <div class="side-actions">

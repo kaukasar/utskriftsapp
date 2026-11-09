@@ -276,6 +276,12 @@ textarea.input { resize: vertical; min-height: 96px; }
 }
 .found { color: var(--success); font-size: 13px; font-weight: 600; }
 
+.form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 16px; max-width: 620px; }
+.form-grid .field-wide { grid-column: 1 / -1; }
+.form-grid .label { margin-bottom: 4px; }
+.form-grid .help { margin-bottom: 6px; }
+@media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
+
 .kv { display: grid; grid-template-columns: max-content 1fr; gap: 6px 18px; margin: 0; }
 .kv dt { color: var(--muted); font-size: 14px; }
 .kv dd { margin: 0; font-weight: 500; }

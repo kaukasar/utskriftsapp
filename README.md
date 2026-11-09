@@ -32,15 +32,17 @@ Alla andra nummer ger felmeddelandet att uppgiften inte finns.
 
 1. **Brev** – dra och släpp eller välj en PDF. Filnamn och storlek visas. Filen kontrolleras både på filändelse
    och innehåll (PDF-signatur). Endast en fil åt gången; vill man byta tar man bort den först.
-2. **Mottagare** – välj *Arbetssökande* eller *Arbetsgivare*, ange personnummer/arbetsgivarnummer och klicka
-   *Hämta uppgifter* (eller Enter).
-3. Namn och adress för mottagaren visas. För arbetssökande visas även en rad om att informationen är
+2. **Mottagare** – välj *Arbetssökande*, *Arbetsgivare* eller *Extern mottagare*. För de två första anger du
+   personnummer/arbetsgivarnummer och klickar *Hämta uppgifter* (eller Enter). För *Extern mottagare* visas i
+   stället ett formulär: Förnamn, Efternamn, Postadress, Postnummer, Postort och Personnummer (alla obligatoriska).
+3. Namn och ort för mottagaren visas. För arbetssökande visas även en rad om att informationen är
    hämtad från sökandeblanketten.
-4. **Syfte** – fyll i beskrivningen (får inte vara tom) och klicka *Gå vidare till förhandsgranskning*.
+4. **Syfte** – endast för arbetssökande: fyll i beskrivningen (får inte vara tom). För arbetsgivare och extern
+   mottagare är delen dold. Klicka sedan *Gå vidare till förhandsgranskning*.
 5. **Förhandsgranska** – hela brevet visas sida för sida tillsammans med mottagare och syfte.
    Välj *Skicka brevet*, *Tillbaka* eller *Ta bort brevet och ladda upp ett nytt*. Brevet kan inte redigeras.
-6. **Skickat** – brevet går till utskrivningscentralen och en daganteckning skapas
-   (visas både som notis och i bekräftelsen). Sammanfattningen visar brevets namn och mottagarens uppgifter.
+6. **Skickat** – brevet går till utskrivningscentralen. För arbetssökande skapas dessutom en daganteckning
+   (visas både som notis och i bekräftelsen); för arbetsgivare och extern mottagare skapas ingen. Sammanfattningen visar brevets namn och mottagarens uppgifter.
 
 ## Filer
 

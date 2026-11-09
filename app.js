@@ -13,6 +13,7 @@
       idHelp: '12 siffror, ÅÅÅÅMMDDNNNN',
       placeholder: 'ÅÅÅÅMMDD-NNNN',
       missingId: 'Ange personnummer för den arbetssökande som ska få brevet.',
+      dayNote: true, // Syfte med utskicket och daganteckning finns endast för arbetssökande.
     },
     organizer: {
       label: 'Arbetsgivare',
@@ -20,8 +21,16 @@
       idHelp: 'Arbetsgivarens kundnummer, endast siffror',
       placeholder: 't.ex. 123456',
       missingId: 'Ange arbetsgivarnummer för den arbetsgivare som ska få brevet.',
+      dayNote: false,
+    },
+    external: {
+      label: 'Extern mottagare',
+      idLabel: 'Personnummer',
+      dayNote: false,
     },
   };
+
+  const PERSONAL_NUMBER_ERROR = 'Personnumret ska anges med 12 siffror, ÅÅÅÅMMDDNNNN (t.ex. 19990101-7777).';
 
   const state = {
     file: null,
@@ -52,6 +61,10 @@
     lookupBtn: $('lookup-btn'),
     idError: $('id-error'),
     recipientCard: $('recipient-card'),
+    lookupSection: $('lookup-section'),
+    externalSection: $('external-section'),
+    purposeCard: $('purpose-card'),
+    noticeDaynote: $('notice-daynote'),
     descInput: $('desc-input'),
     descCount: $('desc-count'),
     descError: $('desc-error'),
@@ -102,7 +115,7 @@
   }
 
   function formatId(type, id) {
-    return type === 'jobseeker' && id.length === 12 ? `${id.slice(0, 8)}-${id.slice(8)}` : id;
+    return (type === 'jobseeker' || type === 'external') && id.length === 12 ? `${id.slice(0, 8)}-${id.slice(8)}` : id;
   }
 
   const pagesText = (n) => (n === 1 ? '1 sida' : `${n} sidor`);
@@ -117,7 +130,7 @@
     errorEl.hidden = true;
     errorEl.textContent = '';
     if (input) input.removeAttribute('aria-invalid');
-    if (els.fileError.hidden && els.idError.hidden && els.descError.hidden) els.formError.hidden = true;
+    if (!els.form.querySelector('.field-error:not([hidden])')) els.formError.hidden = true;
   }
 
   /** Bygger en <dl> med rader [rubrik, värde, extraklass]. */
@@ -262,13 +275,81 @@
 
   function setRecipientType(type) {
     const cfg = RECIPIENT_TYPES[type];
+    const isExternal = type === 'external';
     state.recipientType = type;
-    els.idLabel.textContent = cfg.idLabel;
-    els.idHelp.textContent = cfg.idHelp;
-    els.idInput.placeholder = cfg.placeholder;
-    els.idInput.value = '';
+
+    // Arbetssökande och arbetsgivare slås upp med nummer, extern mottagare fylls i för hand.
+    els.lookupSection.hidden = isExternal;
+    els.externalSection.hidden = !isExternal;
+    if (!isExternal) {
+      els.idLabel.textContent = cfg.idLabel;
+      els.idHelp.textContent = cfg.idHelp;
+      els.idInput.placeholder = cfg.placeholder;
+      els.idInput.value = '';
+    }
     invalidateRecipient();
     clearFieldError(els.idError, els.idInput);
+
+    // Syfte med utskicket (och daganteckningen) finns bara för arbetssökande.
+    els.purposeCard.hidden = !cfg.dayNote;
+    if (!cfg.dayNote) clearFieldError(els.descError, els.descInput);
+  }
+
+  // Extern mottagare: fälten i formuläret, i den ordning de visas.
+  const EXTERNAL_FIELDS = [
+    { key: 'firstName', input: $('ext-firstname'), error: $('ext-firstname-error'), missing: 'Ange förnamn.' },
+    { key: 'lastName', input: $('ext-lastname'), error: $('ext-lastname-error'), missing: 'Ange efternamn.' },
+    { key: 'street', input: $('ext-address'), error: $('ext-address-error'), missing: 'Ange postadress.' },
+    {
+      key: 'postalCode', input: $('ext-zip'), error: $('ext-zip-error'), missing: 'Ange postnummer.',
+      format: (v) => (/^\d{5}$/.test(v.replace(/\s/g, '')) ? null : 'Postnumret ska anges med 5 siffror, t.ex. 123 45.'),
+    },
+    { key: 'city', input: $('ext-city'), error: $('ext-city-error'), missing: 'Ange postort.' },
+    {
+      key: 'id', input: $('ext-pnr'), error: $('ext-pnr-error'), missing: 'Ange personnummer.',
+      format: (v) => (/^\d{12}$/.test(normalizeId(v)) ? null : PERSONAL_NUMBER_ERROR),
+    },
+  ];
+
+  EXTERNAL_FIELDS.forEach((f) => {
+    f.input.addEventListener('input', () => {
+      if (!f.error.hidden) clearFieldError(f.error, f.input);
+    });
+  });
+
+  /** Kontrollerar formuläret för extern mottagare. Returnerar fälten som är felaktiga. */
+  function validateExternal() {
+    const invalid = [];
+    for (const f of EXTERNAL_FIELDS) {
+      const value = f.input.value.trim();
+      const message = !value ? f.missing : (f.format ? f.format(value) : null);
+      if (message) {
+        showFieldError(f.error, message, f.input);
+        invalid.push(f.input);
+      } else {
+        clearFieldError(f.error, f.input);
+      }
+    }
+    return invalid;
+  }
+
+  function buildExternalRecipient() {
+    const v = Object.fromEntries(EXTERNAL_FIELDS.map((f) => [f.key, f.input.value.trim()]));
+    return {
+      type: 'external',
+      id: normalizeId(v.id),
+      name: `${v.firstName} ${v.lastName}`,
+      street: v.street,
+      postalCode: v.postalCode.replace(/\s/g, ''),
+      city: v.city,
+    };
+  }
+
+  function resetExternalForm() {
+    EXTERNAL_FIELDS.forEach((f) => {
+      f.input.value = '';
+      clearFieldError(f.error, f.input);
+    });
   }
 
   function invalidateRecipient() {
@@ -296,7 +377,7 @@
 
     let formatError = null;
     if (!id) formatError = cfg.missingId;
-    else if (type === 'jobseeker' && !/^\d{12}$/.test(id)) formatError = 'Personnumret ska anges med 12 siffror, ÅÅÅÅMMDDNNNN (t.ex. 19990101-7777).';
+    else if (type === 'jobseeker' && !/^\d{12}$/.test(id)) formatError = PERSONAL_NUMBER_ERROR;
     else if (type === 'organizer' && !/^\d+$/.test(id)) formatError = 'Arbetsgivarnumret får bara innehålla siffror.';
     if (formatError) {
       showFieldError(els.idError, formatError, els.idInput);
@@ -377,15 +458,18 @@
       clearFieldError(els.fileError);
     }
 
-    if (!state.recipient) {
-      const cfg = RECIPIENT_TYPES[state.recipientType];
+    const cfg = RECIPIENT_TYPES[state.recipientType];
+
+    if (state.recipientType === 'external') {
+      invalid.push(...validateExternal());
+    } else if (!state.recipient) {
       if (state.lookingUp) showFieldError(els.idError, 'Vänta tills mottagarens uppgifter har hämtats.', els.idInput);
       else if (!normalizeId(els.idInput.value)) showFieldError(els.idError, cfg.missingId, els.idInput);
-      else if (els.idError.hidden) showFieldError(els.idError, 'Klicka på ”Hämta uppgifter” för att visa mottagarens namn och adress innan du går vidare.', els.idInput);
+      else if (els.idError.hidden) showFieldError(els.idError, 'Klicka på ”Hämta uppgifter” för att visa mottagarens namn och ort innan du går vidare.', els.idInput);
       invalid.push(els.idInput);
     }
 
-    if (!els.descInput.value.trim()) {
+    if (cfg.dayNote && !els.descInput.value.trim()) {
       showFieldError(els.descError, 'Beskriv syftet med utskicket. Fältet får inte lämnas tomt.', els.descInput);
       invalid.push(els.descInput);
     }
@@ -400,7 +484,8 @@
     }
 
     els.formError.hidden = true;
-    state.description = els.descInput.value.trim();
+    if (state.recipientType === 'external') state.recipient = buildExternalRecipient();
+    state.description = cfg.dayNote ? els.descInput.value.trim() : '';
     openPreview();
   });
 
@@ -434,14 +519,18 @@
     fillSummary(els.previewSummary, [
       ['Brev', state.file.name],
       ['Mottagare', [r.name, ' ', h('span', { class: 'muted' }, `(${cfg.label.toLowerCase()})`)]],
-      ['Ort', r.city],
+      // För en extern mottagare visas den ifyllda adressen (ersätter ortraden) i förhandsgranskningen.
+      r.type === 'external'
+        ? ['Adress', [r.street, h('br'), `${r.postalCode.slice(0, 3)} ${r.postalCode.slice(3)} ${r.city}`]]
+        : ['Ort', r.city],
       [cfg.idLabel, formatId(r.type, r.id)],
-      ['Syfte med utskicket', state.description, 'pre'],
+      ...(cfg.dayNote ? [['Syfte med utskicket', state.description, 'pre']] : []),
     ]);
   }
 
   function openPreview() {
     renderPreviewSummary();
+    els.noticeDaynote.hidden = !RECIPIENT_TYPES[state.recipient.type].dayNote;
     els.previewFilename.textContent = state.file.name;
     els.previewPages.textContent = state.pageCount ? pagesText(state.pageCount) : '';
     showView('preview');
@@ -529,9 +618,11 @@
   els.sendBtn.addEventListener('click', async () => {
     els.sendBtn.disabled = true;
     const recipient = state.recipient;
+    const withDayNote = RECIPIENT_TYPES[recipient.type].dayNote;
     const payload = { recipient, fileName: state.file.name, description: state.description };
 
     ['print', 'daynote'].forEach((step) => setProgress(step, 'idle'));
+    els.progressList.querySelector('[data-step="daynote"]').hidden = !withDayNote;
     showView('sending');
 
     try {
@@ -539,10 +630,14 @@
       const shipment = await window.MockApi.sendToPrintCenter(payload);
       setProgress('print', 'done');
 
-      setProgress('daynote', 'active');
-      const dayNote = await window.MockApi.createDayNote({ ...payload, shipmentId: shipment.shipmentId });
-      setProgress('daynote', 'done');
-      toast('success', 'Daganteckning skapad', `En daganteckning har skapats automatiskt för ${recipient.name}.`);
+      // Daganteckning skapas endast för arbetssökande.
+      let dayNote = null;
+      if (withDayNote) {
+        setProgress('daynote', 'active');
+        dayNote = await window.MockApi.createDayNote({ ...payload, shipmentId: shipment.shipmentId });
+        setProgress('daynote', 'done');
+        toast('success', 'Daganteckning skapad', `En daganteckning har skapats automatiskt för ${recipient.name}.`);
+      }
 
       await delay(500);
       renderDone({ shipment, dayNote });
@@ -560,14 +655,16 @@
 
     els.doneLead.textContent = `Brevet ”${state.file.name}” har skickats till utskrivningscentralen för behandling och kommer att skickas till ${r.name}.`;
 
-    els.daynoteCard.replaceChildren(
+    els.daynoteCard.hidden = !dayNote;
+    els.daynoteCard.replaceChildren(...(dayNote ? [
       h('h2', null, h('span', { class: 'ok', 'aria-hidden': 'true' }, '✓'), 'Daganteckning skapad'),
       h('p', null, `En daganteckning har skapats automatiskt för ${r.name} (${cfg.label.toLowerCase()}).`),
       h('dl', { class: 'kv' },
         h('dt', null, 'Datum'), h('dd', null, formatDateTime(dayNote.createdAt)),
         h('dt', null, 'Rubrik'), h('dd', null, dayNote.heading),
         h('dt', null, 'Anteckning'), h('dd', { class: 'pre' }, dayNote.text),
-        h('dt', null, 'Registrerad av'), h('dd', null, dayNote.author)));
+        h('dt', null, 'Registrerad av'), h('dd', null, dayNote.author)),
+    ] : []));
 
     fillSummary(els.doneSummary, [
       ['Brev', [state.file.name, state.pageCount ? h('span', { class: 'muted' }, ` (${pagesText(state.pageCount)})`) : null]],
@@ -578,7 +675,7 @@
       ['Ort', r.city],
       ['Skickat', formatDateTime(shipment.sentAt)],
       ['Utskicks-ID', shipment.shipmentId],
-      ['Syfte med utskicket', state.description, 'pre span-2'],
+      ...(cfg.dayNote ? [['Syfte med utskicket', state.description, 'pre span-2']] : []),
     ]);
   }
 
@@ -586,6 +683,7 @@
     removeFile();
     document.querySelector('input[name="recipient-type"][value="jobseeker"]').checked = true;
     setRecipientType('jobseeker');
+    resetExternalForm();
     els.descInput.value = '';
     updateCharCount();
     clearFieldError(els.descError, els.descInput);
